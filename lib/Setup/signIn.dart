@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
+import './Pages/home.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -19,45 +22,47 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           children: <Widget>[
             TextFormField(
-              validator:(input) {
-                if(input.isEmpty){
+              validator: (input) {
+                if (input.isEmpty) {
                   return 'Please type an email';
                 }
-              } ,
-              onSaved:(input) => _email = input,
-              decoration: InputDecoration(
-                labelText: 'Email'
-              ),
+              },
+              onSaved: (input) => _email = input,
+              decoration: InputDecoration(labelText: 'Email'),
             ),
-             TextFormField(
-              validator:(input) {
-                if(input.length<6){
+            TextFormField(
+              validator: (input) {
+                if (input.length < 6) {
                   return 'Password should be at least 6 characters!';
                 }
-              } ,
-              onSaved:(input) => _password = input,
+              },
+              onSaved: (input) => _password = input,
               decoration: InputDecoration(
                 labelText: 'Password',
-            
               ),
               obscureText: true,
             ),
-            RaisedButton(onPressed: () {},
-            child: Text('Sign in'))
+            RaisedButton(onPressed:signIn, child: Text('Sign in'))
           ],
         ),
       ),
     );
-
-
-
   }
 
+  Future<void> signIn() async {
+    final formState = _formKey.currentState;
+    if (formState.validate()) {
+      formState.save();
+      try {
+        FirebaseUser user = (await FirebaseAuth.instance
+                .signInWithEmailAndPassword(email: _email, password: _password))
+            .user;
 
-  void signIn() {
-    final formState=_formKey.currentState;
-    if(formState.validate()){
-      
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Home(user: user)));
+      } catch (e) {
+        print(e.message);
+      }
     }
   }
 }
