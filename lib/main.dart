@@ -2,18 +2,27 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import './Animation/delayed_animation.dart';
+import './Setup/signIn.dart';
 void main() {
   SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(MyApp());
 }
 
+
+  
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
+ 
 }
 
 class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
+
+
+
   final int delayedAmount = 500;
+
+
   double _scale;
   AnimationController _controller;
   @override
@@ -31,6 +40,7 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     final color = Colors.white;
@@ -38,11 +48,12 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          backgroundColor: Color(0xa4c639),
+          backgroundColor: Color(0x7F80DB),
           body: Center(
             child: Column(
               children: <Widget>[
                 AvatarGlow(
+                  
                   endRadius: 90,
                   duration: Duration(seconds: 2),
                   glowColor: Colors.white24,
@@ -104,9 +115,19 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
                 child: GestureDetector(
                   onTapDown: _onTapDown,
                   onTapUp: _onTapUp,
+                  onTap: () => {
+                    Navigator.push(context,
+            new MaterialPageRoute(builder: (_) =>  LoginPage())),
+
+
+                  },
+                  
+                  
                   child: Transform.scale(
                     scale: _scale,
                     child: _animatedButtonUI,
+                     
+                    
                   ),
                 ),
                 delay: delayedAmount + 4000,
@@ -125,19 +146,6 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
               ],
             ),
           )
-          //  Column(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: <Widget>[
-          //     Text('Tap on the Below Button',style: TextStyle(color: Colors.grey[400],fontSize: 20.0),),
-          //     SizedBox(
-          //       height: 20.0,
-          //     ),
-          //      Center(
-
-          //   ),
-          //   ],
-
-          // ),
           ),
     );
   }
@@ -148,9 +156,12 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100.0),
           color: Colors.white,
+          
         ),
+        
         child: Center(
           child: Text(
+            
             'Namaste',
             style: TextStyle(
               fontSize: 20.0,
@@ -159,6 +170,8 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
             ),
           ),
         ),
+        
+        
       );
 
   void _onTapDown(TapDownDetails details) {
@@ -168,4 +181,6 @@ class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   void _onTapUp(TapUpDetails details) {
     _controller.reverse();
   }
+
+  
 }
