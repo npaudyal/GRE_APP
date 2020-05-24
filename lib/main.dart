@@ -5,6 +5,8 @@ import './Animation/delayed_animation.dart';
 import './Setup/signIn.dart';
 import './Setup/Welcome.dart';
 void main() {
+    WidgetsFlutterBinding.ensureInitialized(); 
+
   SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(MyApp());
 }

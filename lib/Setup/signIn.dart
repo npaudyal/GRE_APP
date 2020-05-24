@@ -12,12 +12,14 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   TextEditingController emailController = new TextEditingController();
     TextEditingController passwordController = new TextEditingController();
 
    
   String _email, _password;
-   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+   
   bool _rememberMe = false;
 
   Widget _buildEmailTF() {
@@ -33,8 +35,11 @@ class _LoginScreenState extends State<LoginScreen> {
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
           height: 60.0,
+          
           child: TextFormField(
+                  
              controller: emailController,
+             
              
               validator: (input) {
                 if (input.isEmpty) {
@@ -66,6 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           
           
+        
         ),
         
       ],
@@ -88,6 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
           decoration: kBoxDecorationStyle,
           height: 60.0,
           child: TextFormField(
+            
             controller: passwordController,
              validator: (input) {
                 if (input.length<6) {
@@ -112,6 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
              
           ),
+          
 
         ),
       ],
@@ -290,17 +298,23 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
+    
       
 
     return Scaffold(
-      
-      key: _formKey,
+     
       
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
+                        child: Form(
+                                key: _formKey,
+
+
           child: Stack(
+            
             children: <Widget>[
               Container(
                 
@@ -343,8 +357,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       
                       SizedBox(height: 30.0),
+                      
                       _buildEmailTF(),
-                  
+                      
 
                       SizedBox(
                         height: 30.0,
@@ -363,9 +378,11 @@ class _LoginScreenState extends State<LoginScreen> {
               )
             ],
           ),
+                        ),
         ),
       ),
     );
+    
   }
   Future<void> signIn() async {
     print(_email);
