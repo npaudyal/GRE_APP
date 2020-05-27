@@ -1,26 +1,29 @@
+import 'package:GRE_APP/Setup/Pages/usermanagement.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
-import './Pages/home.dart';
-import '../Utilties/Constants.dart';
+import '../Pages/home.dart';
+import '../../Utilties/Constants.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import './Pages/usermanagement.dart';
+import '../Pages/usermanagement.dart';
 
-class LoginScreen extends StatefulWidget {
+class SignUpScreen extends StatefulWidget {
   
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
      final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController emailController = new TextEditingController();
     TextEditingController passwordController = new TextEditingController();
+        TextEditingController nameController = new TextEditingController();
+
 
    
-  String _email, _password;
+  String _email, _password, _name;
    
   bool _rememberMe = false;
 
@@ -126,61 +129,82 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ],
     );
-  }
+  
 
-  Widget _buildForgotPasswordBtn() {
-    return Container(
-      alignment: Alignment.centerRight,
-      child: FlatButton(
-        onPressed: () => print('Forgot Password Button Pressed'),
-        padding: EdgeInsets.only(right: 0.0),
-        child: Text(
-          'Forgot Password?',
+  }
+    Widget _buildUserNameTF() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Name',
           style: kLabelStyle,
         ),
-      ),
-    );
-  }
-
-  Widget _buildRememberMeCheckbox() {
-    return Container(
-      height: 20.0,
-      child: Row(
-        children: <Widget>[
-          Theme(
-            data: ThemeData(unselectedWidgetColor: Colors.white),
-            child: Checkbox(
-              value: _rememberMe,
-              checkColor: Colors.green,
-              activeColor: Colors.white,
-              onChanged: (value) {
-                setState(() {
-                  _rememberMe = value;
-                });
+        SizedBox(height: 10.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: kBoxDecorationStyle,
+          height: 60.0,
+          
+          child: TextFormField(
+                  
+             controller: nameController,
+             
+             
+              validator: (input) {
+                if (input.isEmpty) {
+                  return 'Your friends must call you something!';
+                }
               },
+              onSaved: (input) => _name = input,
+             
+            keyboardType: TextInputType.text,
+           
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'OpenSans',
             ),
+           
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14.0),
+              prefixIcon: Icon(
+                Icons.email,
+                color: Colors.white,
+              ),
+              hintText: 'What do your firends call you?',
+              hintStyle: kHintTextStyle,
+            ),
+            
+            
+             
           ),
-          Text(
-            'Remember me',
-            style: kLabelStyle,
-          ),
-        ],
-      ),
+          
+          
+        
+        ),
+        
+      ],
+      
+      
     );
   }
 
-  Widget _buildLoginBtn() {
+  Widget _buildSignUpBtn() {
     _email = emailController.text;
     _password = passwordController.text;
+    _name = passwordController.text;
           print(_email);
           print(_password);
+          print(_name);
+
 
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: RaisedButton(
         elevation: 5.0,
-        onPressed: signIn,
+        onPressed: signUp,
            
 
         
@@ -190,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         color: Colors.white,
         child: Text(
-          'LOGIN',
+          'Sign Up',
           style: TextStyle(
             color: Color(0xFF527DAA),
             letterSpacing: 1.5,
@@ -204,102 +228,13 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildSignInWithText() {
-    return Column(
-      children: <Widget>[
-        Text(
-          '- OR -',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        SizedBox(height: 20.0),
-        Text(
-          'Sign in with',
-          style: kLabelStyle,
-        ),
-      ],
-    );
-  }
+ 
 
-  Widget _buildSocialBtn(Function onTap, AssetImage logo) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 60.0,
-        width: 60.0,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              offset: Offset(0, 2),
-              blurRadius: 6.0,
-            ),
-          ],
-          image: DecorationImage(
-            image: logo,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSocialBtnRow() {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 30.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          _buildSocialBtn(
-            () => {
-
-              
-            },
-            AssetImage(
-              'assets/logos/facebook.jpg',
-            ),
-          ), 
-          _buildSocialBtn(
-            () => print('Login with Google'),
-            AssetImage(
-              'assets/logos/google.jpg',
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSignupBtn() {
-    return GestureDetector(
-      onTap: () => Navigator.of(context).pushNamed('/signUp'),
-      child: RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(
-              text: 'Don\'t have an Account? ',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            TextSpan(
-              text: 'Sign Up',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+ 
+ 
+ 
+  
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -352,7 +287,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        'Sign In',
+                        'Sign Up',
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'OpenSans',
@@ -370,12 +305,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 30.0,
                       ),
                       _buildPasswordTF(),
-                      _buildForgotPasswordBtn(),
-                      _buildRememberMeCheckbox(),
-                      _buildLoginBtn(),
-                      _buildSignInWithText(),
-                      _buildSocialBtnRow(),
-                      _buildSignupBtn(),
+                      SizedBox(
+                        height: 30.0,
+                      ),
+                      _buildUserNameTF(),
+                      _buildSignUpBtn(),
+                      
                      
                     ],
                   ),
@@ -389,71 +324,30 @@ class _LoginScreenState extends State<LoginScreen> {
     );
     
   }
-  Future<void> signIn() async {
+
+  Future<void> signUp() async {
     print(_email);
     final formState = _formKey.currentState;
     if (formState.validate()) {
       formState.save();
-      try {
-        FirebaseUser user = (await FirebaseAuth.instance
-                .signInWithEmailAndPassword(email: _email, password: _password))
-            .user;
+       try {
+         FirebaseUser user = (await FirebaseAuth.instance
+                 .createUserWithEmailAndPassword(email: _email, password: _password))
+             .user;
 
      
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Home(user: user)));
+          UserManagement().storeNewUser(user, context);
+          // }).catchError((e) {
+          //   print(e);
+          // });
+     
+
+     
+        // Navigator.push(
+        //     context, MaterialPageRoute(builder: (context) => Home(user: user)));
       } catch (e) {
         print(e.message);
       }
     }
   }
 }
-
-
-// class LoginPage extends StatefulWidget {
- 
-//   @override
-//   _LoginPageState createState() => _LoginPageState();
-// }
-
-
-
-// class _LoginPageState extends State<LoginPage> {
-//   String _email, _password;
-//   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         key: _formKey,
-//         child: Column(
-//           children: <Widget>[
-//             TextFormField(
-//               validator: (input) {
-//                 if (input.isEmpty) {
-//                   return 'Please type an email';
-//                 }
-//               },
-//               onSaved: (input) => _email = input,
-//               decoration: InputDecoration(labelText: 'Email'),
-//             ),
-//             TextFormField(
-//               validator: (input) {
-//                 if (input.length < 6) {
-//                   return 'Password should be at least 6 characters!';
-//                 }
-//               },
-//               onSaved: (input) => _password = input,
-//               decoration: InputDecoration(
-//                 labelText: 'Password',
-//               ),
-//               obscureText: true,
-//             ),
-//             RaisedButton(onPressed:signIn, child: Text('Sign in'))
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-
-  
-

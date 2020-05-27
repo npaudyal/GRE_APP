@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import './Animation/delayed_animation.dart';
 import './Setup/signIn.dart';
 import './Setup/Welcome.dart';
+import './Setup/Pages/signUp.dart';
+import './Setup/Pages/home.dart';
 void main() {
     WidgetsFlutterBinding.ensureInitialized(); 
 
@@ -25,6 +27,11 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return new MaterialApp(
        home: new Welcome(),
+       routes: <String, WidgetBuilder> {
+         '/signUp': (BuildContext context) => new SignUpScreen(),
+         '/homepage': (BuildContext context) => new Home(),
+        
+       },
     );
   }
 }
