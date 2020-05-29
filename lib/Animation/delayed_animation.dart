@@ -1,4 +1,3 @@
-  
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -22,8 +21,8 @@ class _DelayedAnimationState extends State<DelayedAnimation>
   void initState() {
     super.initState();
 
-    _controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 1000));
+    _controller = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 1000));
     final curve =
         CurvedAnimation(curve: Curves.decelerate, parent: _controller);
     _animOffset =

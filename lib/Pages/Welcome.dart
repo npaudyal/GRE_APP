@@ -6,15 +6,10 @@ import './signIn.dart';
 class Welcome extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
- 
 }
 
 class _MyAppState extends State<Welcome> with SingleTickerProviderStateMixin {
-
-
-
   final int delayedAmount = 500;
-
 
   double _scale;
   AnimationController _controller;
@@ -33,7 +28,6 @@ class _MyAppState extends State<Welcome> with SingleTickerProviderStateMixin {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final color = Colors.white;
@@ -46,7 +40,6 @@ class _MyAppState extends State<Welcome> with SingleTickerProviderStateMixin {
             child: Column(
               children: <Widget>[
                 AvatarGlow(
-                  
                   endRadius: 90,
                   duration: Duration(seconds: 2),
                   glowColor: Colors.white24,
@@ -105,25 +98,23 @@ class _MyAppState extends State<Welcome> with SingleTickerProviderStateMixin {
                   height: 100.0,
                 ),
                 DelayedAnimation(
-                child: GestureDetector(
-                  onTapDown: _onTapDown,
-                  onTapUp: _onTapUp,
-                  onTap: () => {
-                    Navigator.push(context,
-            new MaterialPageRoute(builder: (_) =>  LoginScreen())),
-                  },
-                  
-                  
-                  child: Transform.scale(
-                    scale: _scale,
-                    child: _animatedButtonUI,
-                     
-                    
+                  child: GestureDetector(
+                    onTapDown: _onTapDown,
+                    onTapUp: _onTapUp,
+                    onTap: () => {
+                      Navigator.push(context,
+                          new MaterialPageRoute(builder: (_) => LoginScreen())),
+                    },
+                    child: Transform.scale(
+                      scale: _scale,
+                      child: _animatedButtonUI,
+                    ),
                   ),
+                  delay: delayedAmount + 4000,
                 ),
-                delay: delayedAmount + 4000,
-              ),
-              SizedBox(height: 50.0,),
+                SizedBox(
+                  height: 50.0,
+                ),
                 DelayedAnimation(
                   child: Text(
                     "I Already have An Account".toUpperCase(),
@@ -136,8 +127,7 @@ class _MyAppState extends State<Welcome> with SingleTickerProviderStateMixin {
                 ),
               ],
             ),
-          )
-          ),
+          )),
     );
   }
 
@@ -147,12 +137,9 @@ class _MyAppState extends State<Welcome> with SingleTickerProviderStateMixin {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100.0),
           color: Colors.white,
-          
         ),
-        
         child: Center(
           child: Text(
-            
             'Namaste',
             style: TextStyle(
               fontSize: 20.0,
@@ -161,8 +148,6 @@ class _MyAppState extends State<Welcome> with SingleTickerProviderStateMixin {
             ),
           ),
         ),
-        
-        
       );
 
   void _onTapDown(TapDownDetails details) {
@@ -172,6 +157,4 @@ class _MyAppState extends State<Welcome> with SingleTickerProviderStateMixin {
   void _onTapUp(TapUpDetails details) {
     _controller.reverse();
   }
-
-  
 }
