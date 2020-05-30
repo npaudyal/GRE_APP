@@ -10,4 +10,15 @@ class DataBaseService {
       print(e.toString());
     });
   }
+
+  Future<void> addQuestionData(Map questionData, String quizId) async {
+    await Firestore.instance
+    .collection("Quiz")
+    .document(quizId)
+    .collection("QNA")
+    .add(questionData)
+    .catchError((e) {
+      print(e);
+    });
+  }
 }

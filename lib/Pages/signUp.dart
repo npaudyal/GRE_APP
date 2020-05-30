@@ -1,3 +1,4 @@
+import 'package:GRE_APP/Utilties/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
@@ -263,6 +264,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 .createUserWithEmailAndPassword(
                     email: _email, password: _password))
             .user;
+         HelperFunctions.saveUserLoggedInDetails(isLoggedin: true);
+
 
         UserManagement().storeNewUser(user, context);
         // }).catchError((e) {

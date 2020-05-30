@@ -1,3 +1,4 @@
+import 'package:GRE_APP/Utilties/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
@@ -353,7 +354,7 @@ class _LoginScreenState extends State<LoginScreen> {
         FirebaseUser user = (await FirebaseAuth.instance
                 .signInWithEmailAndPassword(email: _email, password: _password))
             .user;
-
+        HelperFunctions.saveUserLoggedInDetails(isLoggedin: true);
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Home(user: user)));
       } catch (e) {

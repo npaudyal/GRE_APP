@@ -30,7 +30,7 @@ class _CreateQuizState extends State<CreateQuiz> {
         setState(() {
           _isLoading = false;
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => AddQuestion()));
+              context, MaterialPageRoute(builder: (context) => AddQuestion(quizId)));
         });
       });
     }
@@ -64,7 +64,7 @@ class _CreateQuizState extends State<CreateQuiz> {
                           hintText: "Quiz Image URL",
                         ),
                         onChanged: (val) {
-                          quizImageURL:
+                          quizImageURL=
                           val;
                         },
                       ),
@@ -78,7 +78,7 @@ class _CreateQuizState extends State<CreateQuiz> {
                           hintText: "Quiz Title",
                         ),
                         onChanged: (val) {
-                          quizTitle:
+                          quizTitle=
                           val;
                         },
                       ),
@@ -92,7 +92,7 @@ class _CreateQuizState extends State<CreateQuiz> {
                           hintText: "Quiz Description",
                         ),
                         onChanged: (val) {
-                          quizDescription:
+                          quizDescription=
                           val;
                         },
                       ),
@@ -104,7 +104,11 @@ class _CreateQuizState extends State<CreateQuiz> {
                           onTap: () {
                             CreateQuizOnline();
                           },
-                          child: blueButton(context, "Create Quiz")),
+                          child: blueButton(
+                            context: context,
+                            label:"Create Quiz"
+
+                  )),
                     ],
                   )),
             ),
