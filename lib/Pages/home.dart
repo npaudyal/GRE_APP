@@ -83,7 +83,7 @@ class QuizTile extends StatelessWidget {
      GestureDetector(
        onTap: () {
          Navigator.push(context, MaterialPageRoute
-         (builder: (context) => PlayQuiz(
+         (builder: (context) => QuizPlay(
            quizId
 
          )));
