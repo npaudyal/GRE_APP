@@ -1,4 +1,6 @@
+import 'package:GRE_APP/Pages/play_quiz.dart';
 import 'package:GRE_APP/Widgets/Widgets.dart';
+import 'package:GRE_APP/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +14,38 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  Stream quizStream;
+  DataBaseService databaseService = new DataBaseService();
+  Widget quizList() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 24),
+      child: StreamBuilder(
+        stream: quizStream,
+        builder: (context, snapshot) {
+          return snapshot.data == null ? Container(): 
+          ListView.builder(
+            itemCount: snapshot.data.documents.length,
+            itemBuilder: (context, index){
+            return QuizTile(
+              imgURL: snapshot.data.documents[index].data["quizImageURL"],
+              title: snapshot.data.documents[index].data["quizTitle"],
+              description: snapshot.data.documents[index].data["quizDescription"],
+              quizId:snapshot.data.documents[index].data["quizId"]);
+          });
+        },
+      ) 
+    );
+  }
+  @override
+  void initState() {
+    databaseService.getQuizData().then((val) {
+     
+      setState(() {
+         quizStream = val;
+      });
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,11 +55,7 @@ class _HomeState extends State<Home> {
         elevation: 0.0,
         brightness: Brightness.light,
       ),
-      body: Container(
-        child: Column(
-          children: [],
-        ),
-      ),
+      body: quizList(),
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
@@ -37,5 +67,57 @@ class _HomeState extends State<Home> {
             );
           }),
     );
+  }
+}
+
+class QuizTile extends StatelessWidget {
+  final String imgURL;
+  final String title;
+  final String description;
+  final String quizId;
+
+  QuizTile({@required this.imgURL,@required this.title,@required this.description,@required this.quizId});
+  @override
+  Widget build(BuildContext context) {
+    return
+     GestureDetector(
+       onTap: () {
+         Navigator.push(context, MaterialPageRoute
+         (builder: (context) => PlayQuiz(
+           quizId
+
+         )));
+       },
+            child: Container(
+        height: 150,
+        margin: EdgeInsets.only(bottom:8),
+
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+                        child: Image.network(imgURL, 
+              width: MediaQuery.of(context).size.width-48, fit: BoxFit.cover,),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                           borderRadius: BorderRadius.circular(8),
+                          color: Colors.black26,
+              ),
+
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(title, style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w500),),
+                  SizedBox(height: 6),
+                  Text(description, style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w400),),
+                ],
+              ),
+            )
+          ],
+        )
+    ),
+     );
   }
 }

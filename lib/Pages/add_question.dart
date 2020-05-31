@@ -11,7 +11,7 @@ class AddQuestion extends StatefulWidget {
 
 class _AddQuestionState extends State<AddQuestion> {
     final _formKey = GlobalKey<FormState>();
-    String question, op1, op2, op3, op4;
+    String question, option1, option2, option3, option4;
     bool _isLoading =false;
     DataBaseService databaseService = new DataBaseService();
 
@@ -24,19 +24,19 @@ class _AddQuestionState extends State<AddQuestion> {
 
         Map<String, String> questionMap = {
           "question": question,
-          "Option 1": op1,
-          "Option 2": op2,
-          "Option 3": op3,
-          "Option 4": op4,
+          "Option 1": option1,
+          "Option 2": option2,
+          "Option 3": option3,
+          "Option 4": option4,
 
         };
         databaseService.addQuestionData(questionMap, widget.quizId)
         .then((value){
            question = "";
-        op1 = "";
-        op2 = "";
-        op3 = "";
-        op4 = "";
+        option1 = "";
+        option2 = "";
+        option3 = "";
+        option4 = "";
         setState(() {
           _isLoading = false;
         });
@@ -89,7 +89,7 @@ class _AddQuestionState extends State<AddQuestion> {
                           hintText: "Option 1",
                         ),
                         onChanged: (val) {
-                          op1=
+                          option1=
                           val;
                         },
                       ),
@@ -103,7 +103,7 @@ class _AddQuestionState extends State<AddQuestion> {
                           hintText: "Option 2",
                         ),
                         onChanged: (val) {
-                          op2=
+                          option2=
                           val;
                         },
                       ),
@@ -117,7 +117,7 @@ class _AddQuestionState extends State<AddQuestion> {
                           hintText: "Option 3",
                         ),
                         onChanged: (val) {
-                          op3=
+                          option3=
                           val;
                         },
                       ),
@@ -131,7 +131,7 @@ class _AddQuestionState extends State<AddQuestion> {
                           hintText: "Option 4",
                         ),
                         onChanged: (val) {
-                          op4=
+                          option4=
                           val;
                         },
                       ),
